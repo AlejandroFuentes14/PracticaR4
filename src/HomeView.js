@@ -4,17 +4,36 @@ import { StyleSheet, View, Text } from "react-native";
 import ArtistList from "./ArtistList";
 import { getMusicData } from "./api-client";
 
-export default class HomeView extends Component<Props> {
+export default class HomeView extends Component {
   state = {
     artists: null,
+    error: null,
   };
 
   componentDidMount() {
-    getMusicData().then((data) => this.setState({ artists: data }));
+    getMusicData()
+      .then((data) => {
+        if (data && data.length > 0) {
+          this.setState({ artists: data });
+        } else {
+          throw new Error("No se encontraron datos de artistas");
+        }
+      })
+      .catch((error) => {
+        this.setState({ error: error.message });
+      });
   }
 
   render() {
-    const artists = this.state.artists;
+    const { artists, error } = this.state;
+
+    if (error) {
+      return (
+        <View style={styles.container}>
+          <Text>Error: {error}</Text>
+        </View>
+      );
+    }
 
     return (
       <View style={styles.container}>

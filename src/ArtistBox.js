@@ -1,9 +1,16 @@
 import React, { Component } from "react";
 import { StyleSheet, Text, View, Image } from "react-native";
 
-export default class ArtistBox extends Component<Props> {
+export default class ArtistBox extends Component {
   render() {
-    const { image, name } = this.props.artist;
+    const { artist } = this.props;
+
+    if (!artist || !artist.image || !artist.name) {
+      return null; // O puedes renderizar un mensaje de error o un componente de carga
+    }
+
+    const { image, name } = artist;
+
     return (
       <View style={styles.artistBox}>
         <Image style={styles.image} source={{ uri: image }} />

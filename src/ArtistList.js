@@ -5,7 +5,7 @@ import { Actions } from "react-native-router-flux";
 import ListView from "deprecated-react-native-listview";
 import ArtistBox from "./ArtistBox";
 
-export default class ArtistList extends Component<Props> {
+export default class ArtistList extends Component {
   constructor(props) {
     super(props);
     const ds = new ListView.DataSource({
@@ -13,18 +13,22 @@ export default class ArtistList extends Component<Props> {
     });
 
     this.state = {
-      dataSource: ds,
+      dataSource: ds.cloneWithRows(props.artists || []),
     };
   }
 
   updateDataSource = (data) => {
     this.setState({
-      dataSource: this.state.dataSource.cloneWithRows(data),
+      dataSource: this.state.dataSource.cloneWithRows(data || []),
     });
   };
-  r;
+  
   handlePress(artist) {
-     Actions.artistDetail({ artist });
+    if (artist && artist.id) {
+      Actions.artistDetail({ artist });
+    } else {
+      console.error("No se pudo encontrar información del artista");
+    }
   }
 
   render() {
