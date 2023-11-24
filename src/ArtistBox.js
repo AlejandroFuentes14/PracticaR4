@@ -6,7 +6,7 @@ export default class ArtistBox extends Component {
     const { artist } = this.props;
 
     if (!artist || !artist.image || !artist.name) {
-      return null; // O puedes renderizar un mensaje de error o un componente de carga
+      return null; 
     }
 
     const { image, name } = artist;

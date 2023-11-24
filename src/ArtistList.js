@@ -1,55 +1,50 @@
 import React, { Component } from "react";
-import { StyleSheet, TouchableOpacity } from "react-native";
+import { TouchableOpacity } from "react-native";
 import { Actions } from "react-native-router-flux";
 
-import { FlatList } from "react-native"; // Replace deprecated ListView with FlatList
+import { FlatList } from "react-native"; // Usamos FlatList en lugar de ListView
 import ArtistBox from "./ArtistBox";
 
 export default class ArtistList extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      dataSource: this.prepareDataSource(props.artists || []),
+      dataSource: [], // Cambiamos el estado inicial para usar un array en lugar de ListView.DataSource
     };
   }
 
-  prepareDataSource = (data) => {
-    return data.map((item, index) => ({
-      ...item,
-      key: `${index}`, // Assign a unique key for FlatList
-    }));
+  updateDataSource = (data) => {
+    this.setState({
+      dataSource: data,
+    });
   };
 
-  handlePress = (artist) => {
-    if (artist && artist.id) {
-      Actions.artistDetail({ artist });
-    } else {
-      console.error("No se pudo encontrar información del artista");
-    }
-  };
-
-  renderArtist = ({ item }) => (
-    <TouchableOpacity onPress={() => this.handlePress(item)}>
-      <ArtistBox artist={item} />
-    </TouchableOpacity>
-  );
-
-  componentDidUpdate(prevProps) {
-    if (prevProps.artists !== this.props.artists) {
-      this.setState({
-        dataSource: this.prepareDataSource(this.props.artists),
-      });
-    }
+  handlePress(artist) {
+    Actions.artistDetail({ artist });
   }
 
   render() {
     return (
       <FlatList
         data={this.state.dataSource}
-        renderItem={this.renderArtist}
-        keyExtractor={(item) => item.key}
+        renderItem={({ item: artist }) => (
+          <TouchableOpacity onPress={() => this.handlePress(artist)}>
+            <ArtistBox artist={artist} />
+          </TouchableOpacity>
+        )}
+        keyExtractor={(item) => item.id.toString()} // Reemplazamos 'id' con la clave de tus artistas
         enableEmptySections={true}
       />
     );
+  }
+
+  componentDidMount() {
+    this.updateDataSource(this.props.artists);
+  }
+
+  componentDidUpdate(prevProps) {
+    if (prevProps.artists !== this.props.artists) {
+      this.updateDataSource(this.props.artists);
+    }
   }
 }

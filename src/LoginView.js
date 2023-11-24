@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Actions } from "react-native-router-flux";
+
 import {
   Alert,
   Image,
@@ -51,7 +52,7 @@ export default class LoginView extends Component {
 
   handleSubmit = () => {
     if (this.validateInput()) {
-      Alert.alert("Éxito", "Las validaciones fueron exitosas.");
+      Actions.home(); 
     }
   };
 
@@ -67,7 +68,7 @@ export default class LoginView extends Component {
           style={styles.input}
           onChangeText={(email) => this.setState({ email })}
           value={this.state.email}
-          placeholder="lorem@ipsum.com"
+          placeholder="email"
           keyboardType="email-address"
         />
         <Text style={styles.label}>Contraseña</Text>
