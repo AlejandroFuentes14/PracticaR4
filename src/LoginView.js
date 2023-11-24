@@ -82,9 +82,6 @@ export default class LoginView extends Component {
         <TouchableOpacity style={styles.button} onPress={this.handleSubmit}>
           <Text style={styles.buttonText}>Iniciar sesión</Text>
         </TouchableOpacity>
-        <Text style={styles.link} onPress={() => Actions.register()}>
-          Registrarse
-        </Text>
       </View>
     );
   }

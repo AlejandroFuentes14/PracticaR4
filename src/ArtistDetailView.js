@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { StyleSheet, Text, TouchableOpacity, View, Image } from "react-native";
-import { Actions } from "react-native-router-flux";
 
 export default class ArtistDetailView extends Component<Props> {
   static navigationOptions = {
