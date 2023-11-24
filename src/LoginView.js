@@ -61,7 +61,7 @@ export default class LoginView extends Component {
       <View style={styles.container}>
         <Image
           style={styles.image}
-          source={require("../assets/257-300x200.jpg")}
+          source={require("../assets/UdeC_Logo.png")}
         />
         <Text style={styles.label}>Correo electrónico</Text>
         <TextInput
@@ -99,6 +99,7 @@ const styles = StyleSheet.create({
   image: {
     width: 300,
     height: 200,
+    resizeMode: "contain", 
     marginBottom: 10,
     marginTop: 50,
   },
